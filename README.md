@@ -4,10 +4,10 @@ These files are a basic configuration for Gulp v4. It includes **BrowserSync**, 
 
 ### This package includes the following:
 
-| Gulp-autoprefixer
-| Gulp-babel
 | Browser-sync
 | Gulp
+| Gulp-autoprefixer
+| Gulp-babel
 | Gulp-jade-php
 | Gulp-plumber
 | Gulp-sass
