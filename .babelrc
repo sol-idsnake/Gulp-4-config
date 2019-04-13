@@ -1,0 +1,5 @@
+// User a babel.config.js in the root folder in order to apply the settings to all underlying folders/packages/projects
+// https://babeljs.io/docs/en/config-files#monorepos
+{
+   "presets": ["@babel/env"]
+}
