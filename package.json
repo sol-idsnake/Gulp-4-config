@@ -10,7 +10,7 @@
    "author": "Hendrik Wendt",
    "license": "ISC",
    "devDependencies": {
-      "@babel/core": "^7.9.6",
+      "@babel/core": "^7.10.2",
       "@babel/preset-env": "^7.9.6",
       "@babel/register": "^7.9.0",
       "browser-sync": "^2.26.7",
