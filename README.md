@@ -5,5 +5,5 @@ These files serve as a basic configuration for Gulp v4. It includes basic compil
 ### Setup:
 
 - Run `npm install`
-- Run `npm start` **OR**
+- Run `npm start` with `gulp-cli` installed globally, **OR**
 - Run `npm i gulp-cli -g` and then run `gulp` in your terminal
