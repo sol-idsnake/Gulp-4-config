@@ -1,29 +1,36 @@
 {
-   "name": "gulp",
-   "version": "1.0.0",
-   "description": "A package that sets up a minimal version of gulp",
-   "keywords": [
-      "SASS",
-      "PHP",
-      "Javascript"
-   ],
-   "author": "Hendrik Wendt",
-   "license": "ISC",
-   "devDependencies": {
-      "@babel/core": "^7.10.2",
-      "@babel/preset-env": "^7.9.6",
-      "@babel/register": "^7.9.0",
-      "browser-sync": "^2.26.7",
-      "gulp": "^4.0.0",
-      "gulp-autoprefixer": "^7.0.1",
-      "gulp-babel": "^8.0.0",
-      "gulp-jade-php": "^2.0.0-0",
-      "gulp-plumber": "^1.2.1",
-      "gulp-sass": "^4.1.0",
-      "gulp-uglify": "^3.0.2",
-      "node-sass": "^4.14.1"
-   },
-   "engines": {
-      "node": "~10.15.3"
-   }
+  "name": "gulp-boilerplate",
+  "version": "1.0.1",
+  "description": "A package that sets up a minimal version of gulp",
+  "keywords": [
+    "Javascript",
+    "PHP",
+    "SASS"
+  ],
+  "author": "Hendrik Wendt",
+  "license": "ISC",
+  "scripts": {
+    "start": "gulp"
+  },
+  "dependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/register": "^7.13.8",
+    "autoprefixer": "^10.2.5",
+    "browser-sync": "^2.26.14",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-jade-php": "^2.0.0-0",
+    "gulp-newer": "^1.4.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^9.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp": "^4.0.2",
+    "postcss": "^8.2.8"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  }
 }

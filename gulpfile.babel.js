@@ -1,92 +1,88 @@
-import autoprefixer from "gulp-autoprefixer";
+import autoprefixer from "autoprefixer";
 import babel from "gulp-babel";
-import browserSync from "browser-sync";
+import browsersync from "browser-sync";
+import cleanCSS from "gulp-clean-css";
 import gulp from "gulp";
-import jadePhp from "gulp-jade-php";
+import jade from "gulp-jade-php";
+import newer from "gulp-newer";
 import plumber from "gulp-plumber";
+import rename from "gulp-rename";
+import postCSS from "gulp-postcss";
 import sass from "gulp-sass";
 import uglify from "gulp-uglify";
 
+const browserSync = browsersync.create();
+
 const dirs = {
-   src: "src",
-   dest: "build"
+  dest: "./build",
+  src: "./src",
 };
 
-const templatePaths = {
-   src: `${dirs.src}/jade/*.jade`,
-   dest: `${dirs.dest}`
-};
+gulp.task("templates", () =>
+  gulp
+    .src(`${dirs.src}/jade/*.jade`)
+    .pipe(plumber())
+    .pipe(jade({ pretty: true }))
+    .pipe(newer("./"))
+    .pipe(gulp.dest("./"))
+    .pipe(browserSync.stream())
+);
 
-const sassPaths = {
-   src: `${dirs.src}/styles/styles.scss`,
-   dest: `${dirs.dest}/`
-};
-
-const jsPaths = {
-   src: `${dirs.src}/js/main.js`,
-   dest: `${dirs.dest}`
-};
-
-gulp.task("templates", () => {
-   return gulp
-      .src(templatePaths.src)
-      .pipe(plumber())
-      .pipe(jadePhp({ pretty: true }))
-      .pipe(gulp.dest(templatePaths.dest))
-      .pipe(browserSync.reload({ stream: true }));
+gulp.task("css", (callback) => {
+  gulp.series(["sass", "minifycss"])(callback);
 });
 
-gulp.task("sass", () => {
-   return gulp
-      .src(sassPaths.src)
-      .pipe(plumber())
-      .pipe(
-         sass({
-            // use "compressed" for production
-            outputStyle: "expanded",
-            // for debugging, show line where style is applied.
-            sourceComments: true
-         }).on("error", sass.logError)
-      )
-      .pipe(
-         autoprefixer({
-            grid: "no-autoplace"
-         })
-      )
-      .pipe(gulp.dest(sassPaths.dest))
-      .pipe(browserSync.reload({ stream: true }));
-});
+gulp.task("sass", () =>
+  gulp
+    .src(`${dirs.src}/styles/styles.scss`, { sourcemaps: true })
+    .pipe(plumber())
+    .pipe(
+      sass({
+        // use "compressed" for production
+        outputStyle: "expanded",
+        // for debugging, show line where style is applied.
+        sourceComments: true,
+      }).on("error", sass.logError)
+    )
+    .pipe(postCSS([autoprefixer({ grid: "autoplace" })]))
+    .pipe(gulp.dest(`${dirs.dest}/css/`, { sourcemaps: true }))
+    .pipe(browserSync.stream())
+);
 
-gulp.task("js", () => {
-   return gulp
-      .src(jsPaths.src)
-      .pipe(plumber())
-      .pipe(babel())
-      .pipe(
-         uglify({
-            // return compressor warnings in result.warnings
-            // Use the value "verbose" for more detailed warnings.
-            warnings: true,
-            // enable/disable top level variable and function name mangling & drop unused variables and functions.
-            toplevel: false
-         })
-      )
-      .pipe(gulp.dest(jsPaths.dest))
-      .pipe(browserSync.reload({ stream: true }));
-});
+gulp.task("minifycss", () =>
+  gulp
+    .src(`${dirs.dest}/css/styles.css`, { sourcemaps: true })
+    .pipe(plumber())
+    .pipe(cleanCSS({ compatibility: "*" }))
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(gulp.dest(`${dirs.dest}/css`, { sourcemaps: "." }))
+    .pipe(browserSync.stream())
+);
+
+gulp.task("js", () =>
+  gulp
+    .src(`${dirs.src}/js/main.js`)
+    .pipe(plumber())
+    .pipe(babel())
+    .pipe(
+      uglify({
+        // return compressor warnings in result.warnings
+        // Use the value "verbose" for more detailed warnings.
+        warnings: true,
+        // enable/disable top level variable and function name mangling & drop unused variables and functions.
+        toplevel: false,
+      })
+    )
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(gulp.dest(`${dirs.dest}/js`))
+    .pipe(browserSync.stream())
+);
 
 // watch root for changes, run all tasks and reload
-gulp.task(
-   "default",
-   gulp.parallel(["templates", "sass", "js"], function() {
-      browserSync({
-         server: {
-            baseDir: "./build/"
-         }
-      });
+gulp.task("default", () => {
+  browserSync.init();
 
-      gulp.watch(templatePaths.src, gulp.series("templates"));
-      gulp.watch(sassPaths.src, gulp.series("sass"));
-      gulp.watch(jsPaths.src, gulp.series("js"));
-   })
-);
+  gulp.watch(`${dirs.src}/js/*.js`, gulp.series("js"));
+  gulp.watch(`${dirs.src}/styles/*.scss`, gulp.series("css"));
+  gulp.watch(`${dirs.src}/jade/*.jade`, gulp.series("templates"));
+});

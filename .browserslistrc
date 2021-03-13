@@ -1,8 +1,5 @@
 # Browsers we support
-# It is recommended to insert these entries into your package.json
-# to make them accessible for all packages at a top-level
 
-last 2 versions,
->2%,
-not dead,
-last 2 IE versions
+> 5%
+last 2 versions
+not dead

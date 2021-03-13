@@ -1,21 +1,9 @@
 # Gulp 4 Config Files
 
-These files are a basic configuration for Gulp v4. It includes **BrowserSync**, **SASS**, and the newest **ES7** support.
+These files serve as a basic configuration for Gulp v4. It includes basic compilation of Jade, SCSS, and Javascript files.
 
-### This package includes the following:
+### Setup:
 
-| Browser-sync
-
-| Gulp
-
-| Gulp-autoprefixer
-
-| Gulp-babel
-
-| Gulp-jade-php
-
-| Gulp-plumber
-
-| Gulp-sass
-
-| gulp-uglify
+- Run `npm install`
+- Run `npm start` **OR**
+- Run `npm i gulp-cli -g` and then run `gulp` in your terminal
